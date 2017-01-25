@@ -12,6 +12,7 @@ export class WeatherPage {
 
   private city: string;
   private state: string;
+  private weather: any;
 
   constructor(public navCtrl: NavController, 
     private weatherService: WeatherService) {
@@ -23,7 +24,10 @@ export class WeatherPage {
 
   ngOnInit() {
     this.weatherService.getWeather(this.state, this.city)
-      .subscribe(weather => console.log(weather));
+      .subscribe(weather => {
+        console.log(weather);
+        this.weather = weather.current_observation;
+      });
   }
 
 }
