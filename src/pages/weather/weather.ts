@@ -13,6 +13,8 @@ export class WeatherPage {
   private city: string;
   private state: string;
   private weather: any;
+  private searchStr: string;
+  private cities: any[];
 
   constructor(public navCtrl: NavController, 
     private weatherService: WeatherService) {
@@ -28,6 +30,11 @@ export class WeatherPage {
         console.log(weather);
         this.weather = weather.current_observation;
       });
+  }
+
+  getQuery() {
+    this.weatherService.searchCities(this.searchStr)
+      .subscribe(cities => this.cities = cities.RESULTS);
   }
 
 }
