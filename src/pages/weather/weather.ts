@@ -10,31 +10,38 @@ import { WeatherService } from '../../app/services/weather.service';
 })
 export class WeatherPage {
 
-  private city: string;
-  private state: string;
   private weather: any;
   private searchStr: string;
   private cities: any[];
+  private zmw: any;
 
   constructor(public navCtrl: NavController, 
-    private weatherService: WeatherService) {
-
-    this.city = 'Boston';
-    this.state = 'MA';
-
-  }
+    private weatherService: WeatherService) {}
 
   ngOnInit() {
-    this.weatherService.getWeather(this.state, this.city)
-      .subscribe(weather => {
-        console.log(weather);
-        this.weather = weather.current_observation;
-      });
+    this.getDefaultCity();
+    this.weatherService.getWeather(this.zmw)
+      .subscribe(weather => this.weather = weather.current_observation);
+  }
+
+  getDefaultCity() {
+    const location = localStorage.getItem('location');
+    if (location !== undefined) {
+      this.zmw = JSON.parse(location).zmw;
+    } else {
+      this.zmw = '10001.11.99999';
+    }
   }
 
   getQuery() {
     this.weatherService.searchCities(this.searchStr)
       .subscribe(cities => this.cities = cities.RESULTS);
+  }
+
+  chooseCity(city) {
+    this.cities = [];
+    this.weatherService.getWeather(city.zmw)
+      .subscribe(weather => this.weather = weather.current_observation);
   }
 
 }

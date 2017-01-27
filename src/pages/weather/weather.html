@@ -20,7 +20,7 @@
         </ion-list>
         <ion-list *ngIf="cities">
           <ion-item *ngFor="let city of cities">
-            <span>{{ city.name }}</span>
+            <span (click)="chooseCity(city)">{{ city.name }}</span>
           </ion-item>
         </ion-list>
       </ion-col>
